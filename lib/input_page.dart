@@ -6,7 +6,8 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'gender_icon.dart';
 
 const double bottomContainerHeight = 80.0;
-const Color baseCardColor = Colors.brown;
+const Color defaultCardColor = Colors.brown;
+const Color selectedCardColor = Color(0xFFFF6D4C41);
 
 class InputPage extends StatefulWidget {
   @override
@@ -14,6 +15,8 @@ class InputPage extends StatefulWidget {
 }
 
 class _InputPageState extends State<InputPage> {
+  Gender selectedGender;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,7 +31,12 @@ class _InputPageState extends State<InputPage> {
               children: [
                 Expanded(
                   child: ReusableCard(
-                    colour: baseCardColor,
+                    onTap: () => setState(() {
+                      selectedGender = Gender.male;
+                    }),
+                    colour: selectedGender == Gender.male
+                        ? selectedCardColor
+                        : defaultCardColor,
                     cardChild: GenderWidget(
                       genderIcon: FontAwesomeIcons.mars,
                       label: 'MALE',
@@ -37,7 +45,14 @@ class _InputPageState extends State<InputPage> {
                 ),
                 Expanded(
                   child: ReusableCard(
-                    colour: baseCardColor,
+                    onTap: () {
+                      setState(() {
+                        selectedGender = Gender.female;
+                      });
+                    },
+                    colour: selectedGender == Gender.female
+                        ? selectedCardColor
+                        : defaultCardColor,
                     cardChild: GenderWidget(
                       genderIcon: FontAwesomeIcons.venus,
                       label: 'FEMALE',
@@ -49,7 +64,7 @@ class _InputPageState extends State<InputPage> {
           ),
           Expanded(
             child: ReusableCard(
-              colour: baseCardColor,
+              colour: defaultCardColor,
             ),
           ),
           Expanded(
@@ -57,12 +72,12 @@ class _InputPageState extends State<InputPage> {
               children: [
                 Expanded(
                   child: ReusableCard(
-                    colour: baseCardColor,
+                    colour: defaultCardColor,
                   ),
                 ),
                 Expanded(
                   child: ReusableCard(
-                    colour: baseCardColor,
+                    colour: defaultCardColor,
                   ),
                 ),
               ],
@@ -77,4 +92,9 @@ class _InputPageState extends State<InputPage> {
       ),
     );
   }
+}
+
+enum Gender {
+  male,
+  female,
 }
