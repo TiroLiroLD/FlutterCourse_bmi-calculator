@@ -3,11 +3,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
+import 'constants.dart';
 import 'gender_icon.dart';
-
-const double bottomContainerHeight = 80.0;
-const Color defaultCardColor = Colors.brown;
-const Color selectedCardColor = Color(0xFFFF6D4C41);
 
 class InputPage extends StatefulWidget {
   @override
@@ -16,6 +13,7 @@ class InputPage extends StatefulWidget {
 
 class _InputPageState extends State<InputPage> {
   Gender selectedGender;
+  int height = 120;
 
   @override
   Widget build(BuildContext context) {
@@ -25,6 +23,7 @@ class _InputPageState extends State<InputPage> {
         backgroundColor: Colors.brown[500],
       ),
       body: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Expanded(
             child: Row(
@@ -35,8 +34,8 @@ class _InputPageState extends State<InputPage> {
                       selectedGender = Gender.male;
                     }),
                     colour: selectedGender == Gender.male
-                        ? selectedCardColor
-                        : defaultCardColor,
+                        ? kSelectedCardColor
+                        : kDefaultCardColor,
                     cardChild: GenderWidget(
                       genderIcon: FontAwesomeIcons.mars,
                       label: 'MALE',
@@ -51,8 +50,8 @@ class _InputPageState extends State<InputPage> {
                       });
                     },
                     colour: selectedGender == Gender.female
-                        ? selectedCardColor
-                        : defaultCardColor,
+                        ? kSelectedCardColor
+                        : kDefaultCardColor,
                     cardChild: GenderWidget(
                       genderIcon: FontAwesomeIcons.venus,
                       label: 'FEMALE',
@@ -64,7 +63,41 @@ class _InputPageState extends State<InputPage> {
           ),
           Expanded(
             child: ReusableCard(
-              colour: defaultCardColor,
+              colour: kDefaultCardColor,
+              cardChild: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    "HEIGHT",
+                    style: kLabelTextStyle,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.baseline,
+                    textBaseline: TextBaseline.alphabetic,
+                    children: [
+                      Text(
+                        height.toString(),
+                        style: kNumberTextStyle,
+                      ),
+                      Text(
+                        'cm',
+                        style: kLabelTextStyle,
+                      )
+                    ],
+                  ),
+                  Slider(
+                    value: height.toDouble(),
+                    min: 120.0,
+                    max: 220.0,
+                    onChanged: (double newValue) {
+                      setState(() {
+                        height = newValue.toInt();
+                      });
+                    },
+                  )
+                ],
+              ),
             ),
           ),
           Expanded(
@@ -72,20 +105,20 @@ class _InputPageState extends State<InputPage> {
               children: [
                 Expanded(
                   child: ReusableCard(
-                    colour: defaultCardColor,
+                    colour: kDefaultCardColor,
                   ),
                 ),
                 Expanded(
                   child: ReusableCard(
-                    colour: defaultCardColor,
+                    colour: kDefaultCardColor,
                   ),
                 ),
               ],
             ),
           ),
           Container(
-            color: Colors.red,
-            height: bottomContainerHeight,
+            color: kBottomContainerColor,
+            height: kBottomContainerHeight,
             margin: EdgeInsets.only(top: 10.0),
           ),
         ],
